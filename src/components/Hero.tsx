@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -19,17 +20,22 @@ const Hero = () => {
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 <div className="rounded-md shadow">
-                  <Button className="w-full flex items-center justify-center px-8 py-6 border border-transparent text-base font-medium rounded-md text-white bg-one-way-blue hover:bg-one-way-blue/90">
-                    Devocional do Dia
-                    <ChevronRight className="ml-2 h-4 w-4" />
+                  <Button className="w-full flex items-center justify-center px-8 py-6 border border-transparent text-base font-medium rounded-md text-white bg-one-way-blue hover:bg-one-way-blue/90" asChild>
+                    <Link to="/devocional">
+                      Devocional do Dia
+                      <ChevronRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </Button>
                 </div>
                 <div className="mt-3 sm:mt-0 sm:ml-3">
                   <Button 
                     variant="outline" 
                     className="w-full flex items-center justify-center px-8 py-6 border border-one-way-blue text-base font-medium rounded-md text-one-way-blue bg-white hover:bg-one-way-blue-light"
+                    asChild
                   >
-                    Nossos Estudos
+                    <Link to="/estudos">
+                      Nossos Estudos
+                    </Link>
                   </Button>
                 </div>
               </div>
