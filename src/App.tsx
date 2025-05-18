@@ -19,6 +19,8 @@ import EventosPage from "./pages/EventosPage";
 import ArtigosPage from "./pages/ArtigosPage";
 import ComunidadePage from "./pages/ComunidadePage";
 import DevocionalPage from "./pages/DevocionalPage";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -43,7 +45,8 @@ const App = () => (
           <Route path="/artigos" element={<ArtigosPage />} />
           <Route path="/comunidade" element={<ComunidadePage />} />
           <Route path="/devocional" element={<DevocionalPage />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
