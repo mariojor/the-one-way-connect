@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Lock } from "lucide-react";
+import { users } from "../mockBackend/mockData";
 
 const formSchema = z.object({
   email: z.string().email("E-mail inválido"),
@@ -39,21 +40,20 @@ const AdminLogin = () => {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:3001/api/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: data.email, password: data.password }),
-      });
-
-      const result = await response.json();
+      // Usando diretamente os dados do mock em vez de fazer uma requisição fetch
+      const user = users.find(u => u.email === data.email && u.password === data.password);
       
-      if (!response.ok) {
-        throw new Error(result.message || "Falha na autenticação");
+      if (!user) {
+        throw new Error("Credenciais inválidas");
       }
 
+      // Remover a senha antes de armazenar o usuário
+      const { password, ...userWithoutPassword } = user;
+      
       // Armazena o token e informações do usuário (simulando autenticação)
-      localStorage.setItem("adminToken", result.token);
-      localStorage.setItem("adminUser", JSON.stringify(result.user));
+      const mockToken = `mock-token-${user.id}-${Date.now()}`;
+      localStorage.setItem("adminToken", mockToken);
+      localStorage.setItem("adminUser", JSON.stringify(userWithoutPassword));
       
       toast.success("Login realizado com sucesso");
       navigate("/admin/dashboard");
