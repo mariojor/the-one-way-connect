@@ -1,0 +1,19 @@
+
+{
+  "name": "mock-api-server",
+  "version": "1.0.0",
+  "description": "API REST simulada para desenvolvimento sem dependência de banco de dados externo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node src/mockBackend/startServer.js",
+    "dev": "node --watch src/mockBackend/startServer.js"
+  },
+  "keywords": [
+    "api",
+    "mock",
+    "rest",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT"
+}
