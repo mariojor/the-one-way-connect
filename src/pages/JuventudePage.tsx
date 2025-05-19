@@ -1,9 +1,41 @@
 
+import { useQuery } from "@tanstack/react-query";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Users } from "lucide-react";
+import { Users, Loader2, Calendar, User } from "lucide-react";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { format, parseISO } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { toast } from "sonner";
+
+interface ConteudoJuventude {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+  imageUrl: string;
+  author: string;
+  date: string;
+  category: string;
+}
 
 const JuventudePage = () => {
+  // Buscar conteúdos da API
+  const { data: conteudos, isLoading, error } = useQuery({
+    queryKey: ['juventude'],
+    queryFn: async () => {
+      const response = await fetch('http://localhost:3001/api/juventude');
+      if (!response.ok) throw new Error('Erro ao buscar conteúdos');
+      return response.json() as Promise<ConteudoJuventude[]>;
+    },
+  });
+
+  // Se houver erro ao buscar conteúdos
+  if (error) {
+    toast.error("Erro ao carregar conteúdos");
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -22,10 +54,50 @@ const JuventudePage = () => {
             </p>
           </div>
 
-          <div className="bg-one-way-blue text-white p-8 rounded-lg text-center mb-8">
-            <h2 className="text-2xl font-bold mb-4">Página em construção</h2>
-            <p>Estamos preparando conteúdo incrível para os jovens. Volte em breve!</p>
-          </div>
+          {isLoading ? (
+            <div className="flex justify-center py-20">
+              <Loader2 className="h-12 w-12 animate-spin text-one-way-blue" />
+            </div>
+          ) : conteudos && conteudos.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {conteudos.map((conteudo) => (
+                <Card key={conteudo.id} className="flex flex-col h-full">
+                  <div className="h-48 overflow-hidden">
+                    <img 
+                      src={conteudo.imageUrl || "/placeholder.svg"} 
+                      alt={conteudo.title} 
+                      className="w-full h-full object-cover transition-transform hover:scale-105"
+                    />
+                  </div>
+                  <CardHeader>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm font-medium text-one-way-blue">{conteudo.category}</span>
+                      <span className="text-sm text-gray-500 flex items-center">
+                        <Calendar className="h-3 w-3 mr-1" />
+                        {format(parseISO(conteudo.date), "dd/MM/yyyy", { locale: ptBR })}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold">{conteudo.title}</h3>
+                    <div className="text-sm text-gray-500 flex items-center">
+                      <User className="h-3 w-3 mr-1" />
+                      {conteudo.author}
+                    </div>
+                  </CardHeader>
+                  <CardContent className="flex-grow">
+                    <p className="text-gray-600 line-clamp-3">{conteudo.description}</p>
+                  </CardContent>
+                  <CardFooter>
+                    <Button className="w-full">Ler Mais</Button>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-one-way-blue text-white p-8 rounded-lg text-center mb-8">
+              <h2 className="text-2xl font-bold mb-4">Página em construção</h2>
+              <p>Estamos preparando conteúdo incrível para os jovens. Volte em breve!</p>
+            </div>
+          )}
         </div>
       </main>
       
