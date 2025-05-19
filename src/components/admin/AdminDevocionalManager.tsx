@@ -1,8 +1,9 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { Link } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -57,8 +58,7 @@ const AdminDevocionalManager = () => {
   });
 
   const handleEdit = (id: string) => {
-    // Implementação futura para edição de devocional
-    toast.info(`Editando devocional ID: ${id}`);
+    // Redirecionado pelo botão Link
   };
 
   const handleDelete = async (id: string) => {
@@ -177,10 +177,12 @@ const AdminDevocionalManager = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleEdit(devocional.id)}
+                        asChild
                         className="text-blue-500 hover:text-blue-700"
                       >
-                        <Edit2 className="h-4 w-4" />
+                        <Link to={`/admin/devocionais/editar/${devocional.id}`}>
+                          <Edit2 className="h-4 w-4" />
+                        </Link>
                       </Button>
                       <Button
                         variant="ghost"

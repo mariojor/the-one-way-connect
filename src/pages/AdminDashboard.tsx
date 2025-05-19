@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
@@ -88,9 +88,14 @@ const AdminDashboard = () => {
             <div className="bg-white p-6 rounded-lg shadow">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold">Gerenciar Devocionais</h2>
-                <Button className="flex items-center gap-2">
-                  <PlusCircle className="h-4 w-4" />
-                  Novo Devocional
+                <Button 
+                  className="flex items-center gap-2"
+                  asChild
+                >
+                  <Link to="/admin/devocionais/novo">
+                    <PlusCircle className="h-4 w-4" />
+                    Novo Devocional
+                  </Link>
                 </Button>
               </div>
               <AdminDevocionalManager />
@@ -101,9 +106,14 @@ const AdminDashboard = () => {
             <div className="bg-white p-6 rounded-lg shadow">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold">Gerenciar Artigos</h2>
-                <Button className="flex items-center gap-2">
-                  <PlusCircle className="h-4 w-4" />
-                  Novo Artigo
+                <Button 
+                  className="flex items-center gap-2"
+                  asChild
+                >
+                  <Link to="/admin/artigos/novo">
+                    <PlusCircle className="h-4 w-4" />
+                    Novo Artigo
+                  </Link>
                 </Button>
               </div>
               <AdminArtigoManager />
@@ -114,9 +124,14 @@ const AdminDashboard = () => {
             <div className="bg-white p-6 rounded-lg shadow">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold">Gerenciar Eventos</h2>
-                <Button className="flex items-center gap-2">
-                  <PlusCircle className="h-4 w-4" />
-                  Novo Evento
+                <Button 
+                  className="flex items-center gap-2"
+                  asChild
+                >
+                  <Link to="/admin/eventos/novo">
+                    <PlusCircle className="h-4 w-4" />
+                    Novo Evento
+                  </Link>
                 </Button>
               </div>
               <AdminEventoManager />

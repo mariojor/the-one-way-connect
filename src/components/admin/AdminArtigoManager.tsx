@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
+import { Link } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -48,11 +49,6 @@ const AdminArtigoManager = () => {
     queryKey: ['artigos'],
     queryFn: fetchArtigos,
   });
-
-  const handleEdit = (id: string) => {
-    // Implementação futura para edição de artigo
-    toast.info(`Editando artigo ID: ${id}`);
-  };
 
   const handleDelete = async (id: string) => {
     if (!confirm("Tem certeza que deseja excluir este artigo?")) return;
@@ -175,10 +171,12 @@ const AdminArtigoManager = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleEdit(artigo.id)}
+                        asChild
                         className="text-blue-500 hover:text-blue-700"
                       >
-                        <Edit2 className="h-4 w-4" />
+                        <Link to={`/admin/artigos/editar/${artigo.id}`}>
+                          <Edit2 className="h-4 w-4" />
+                        </Link>
                       </Button>
                       <Button
                         variant="ghost"

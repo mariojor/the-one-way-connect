@@ -21,6 +21,9 @@ import ComunidadePage from "./pages/ComunidadePage";
 import DevocionalPage from "./pages/DevocionalPage";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import AddDevocionalPage from "./pages/admin/AddDevocionalPage";
+import AddArtigoPage from "./pages/admin/AddArtigoPage";
+import AddEventoPage from "./pages/admin/AddEventoPage";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +50,12 @@ const App = () => (
           <Route path="/devocional" element={<DevocionalPage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/devocionais/novo" element={<AddDevocionalPage />} />
+          <Route path="/admin/devocionais/editar/:id" element={<AddDevocionalPage />} />
+          <Route path="/admin/artigos/novo" element={<AddArtigoPage />} />
+          <Route path="/admin/artigos/editar/:id" element={<AddArtigoPage />} />
+          <Route path="/admin/eventos/novo" element={<AddEventoPage />} />
+          <Route path="/admin/eventos/editar/:id" element={<AddEventoPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
