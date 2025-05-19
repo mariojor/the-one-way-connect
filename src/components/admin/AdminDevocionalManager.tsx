@@ -32,14 +32,18 @@ import {
 // Tipo para Devocional
 interface Devocional {
   id: string;
-  date: string;
-  title: string;
-  verse: string;
-  verseText: string;
-  content: string;
-  prayer: string;
-  application: string;
-  authorId: string;
+  date?: string;
+  data?: string; // Adicionando campo alternativo
+  title?: string;
+  titulo?: string; // Adicionando campo alternativo
+  verse?: string;
+  versiculo?: string; // Adicionando campo alternativo
+  verseText?: string;
+  content?: string;
+  prayer?: string;
+  application?: string;
+  authorId?: string;
+  autor?: string; // Adicionando campo alternativo
 }
 
 const AdminDevocionalManager = () => {
@@ -56,10 +60,6 @@ const AdminDevocionalManager = () => {
     queryKey: ['devocionais'],
     queryFn: fetchDevocionais,
   });
-
-  const handleEdit = (id: string) => {
-    // Redirecionado pelo botão Link
-  };
 
   const handleDelete = async (id: string) => {
     if (!confirm("Tem certeza que deseja excluir este devocional?")) return;
@@ -79,12 +79,32 @@ const AdminDevocionalManager = () => {
     }
   };
 
-  const filteredDevocionais = data?.filter(devocional => {
-    const matchesSearch = devocional.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         devocional.verse.toLowerCase().includes(searchTerm.toLowerCase());
+  const normalizeDevocional = (devocional: Devocional) => {
+    // Funções helper para tratar casos com valores indefinidos
+    const getTitle = (dev: Devocional) => dev.title || dev.titulo || "";
+    const getVerse = (dev: Devocional) => dev.verse || dev.versiculo || "";
+    const getDate = (dev: Devocional) => dev.date || dev.data || "";
+
+    return {
+      ...devocional,
+      safeTitle: getTitle(devocional),
+      safeVerse: getVerse(devocional),
+      safeDate: getDate(devocional)
+    };
+  };
+
+  const filteredDevocionais = data?.map(normalizeDevocional).filter(devocional => {
+    // Verifica se a string existe antes de chamar toLowerCase()
+    const titleMatch = devocional.safeTitle && 
+      devocional.safeTitle.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const verseMatch = devocional.safeVerse && 
+      devocional.safeVerse.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesSearch = titleMatch || verseMatch;
     
     const matchesDate = selectedDate 
-      ? devocional.date === format(selectedDate, 'yyyy-MM-dd')
+      ? devocional.safeDate === format(selectedDate, 'yyyy-MM-dd')
       : true;
     
     return matchesSearch && matchesDate;
@@ -169,10 +189,10 @@ const AdminDevocionalManager = () => {
                 {filteredDevocionais.map((devocional) => (
                   <TableRow key={devocional.id}>
                     <TableCell>
-                      {format(parseISO(devocional.date), "dd/MM/yyyy")}
+                      {devocional.safeDate ? format(parseISO(devocional.safeDate), "dd/MM/yyyy") : "N/A"}
                     </TableCell>
-                    <TableCell className="font-medium">{devocional.title}</TableCell>
-                    <TableCell>{devocional.verse}</TableCell>
+                    <TableCell className="font-medium">{devocional.safeTitle}</TableCell>
+                    <TableCell>{devocional.safeVerse}</TableCell>
                     <TableCell className="text-right">
                       <Button
                         variant="ghost"
