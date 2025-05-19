@@ -100,4 +100,52 @@ const eventos = [
   },
 ];
 
-module.exports = { users, devocionais, artigos, eventos };
+const oracoes = [
+  {
+    id: "1",
+    title: "Oração pela Família",
+    author: "Pastor José",
+    description: "Um guia para orar pelos familiares e pelo fortalecimento do lar",
+    content: "Senhor, te agradecemos pelas famílias e pedimos que abençoes cada lar...",
+    imageUrl: "/placeholder.svg",
+    category: "Oração",
+    date: "2025-05-15",
+  },
+  {
+    id: "2",
+    title: "Oração por Cura e Saúde",
+    author: "Missionária Ana",
+    description: "Orações específicas para momentos de enfermidade",
+    content: "Deus de toda consolação, venho diante de ti para interceder pelos enfermos...",
+    imageUrl: "/placeholder.svg",
+    category: "Intercessão",
+    date: "2025-05-17",
+  }
+];
+
+const midias = [
+  {
+    id: "1",
+    title: "Entendendo a Graça de Deus",
+    description: "Uma explicação profunda sobre o conceito da graça divina",
+    author: "Pr. Carlos Oliveira",
+    type: "video",
+    url: "https://exemplo.com/videos/graca",
+    imageUrl: "https://images.unsplash.com/photo-1535016120720-40c646be5580",
+    duration: "25:14",
+    date: "2025-05-10",
+  },
+  {
+    id: "2",
+    title: "Diálogos de Fé",
+    description: "Conversas profundas sobre questões teológicas",
+    author: "Dr. Paulo Santos",
+    type: "podcast",
+    url: "https://exemplo.com/podcast/dialogos",
+    imageUrl: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc",
+    duration: "45:21",
+    date: "2025-05-12",
+  }
+];
+
+module.exports = { users, devocionais, artigos, eventos, oracoes, midias };

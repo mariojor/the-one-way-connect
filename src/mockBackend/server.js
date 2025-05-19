@@ -6,6 +6,8 @@ const { usersRoutes } = require('./routes/users');
 const { devocionalRoutes } = require('./routes/devocionais');
 const { artigosRoutes } = require('./routes/artigos');
 const { eventosRoutes } = require('./routes/eventos');
+const { oracoesRoutes } = require('./routes/oracoes');
+const { midiasRoutes } = require('./routes/midias');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -19,6 +21,8 @@ app.use('/api/users', usersRoutes);
 app.use('/api/devocionais', devocionalRoutes);
 app.use('/api/artigos', artigosRoutes);
 app.use('/api/eventos', eventosRoutes);
+app.use('/api/oracao', oracoesRoutes);
+app.use('/api/midia', midiasRoutes);
 
 // Rota de teste
 app.get('/api/status', (req, res) => {

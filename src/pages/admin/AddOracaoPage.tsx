@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -48,7 +48,7 @@ const AddOracaoPage = () => {
   });
 
   // Buscar dados se estiver editando
-  useState(() => {
+  useEffect(() => {
     if (isEditing) {
       fetch(`http://localhost:3001/api/oracao/${id}`)
         .then((res) => {
@@ -65,7 +65,7 @@ const AddOracaoPage = () => {
           navigate("/admin/dashboard");
         });
     }
-  });
+  }, [id, isEditing, navigate, form]);
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);

@@ -13,5 +13,7 @@ app.listen(PORT, () => {
   console.log(`- GET    http://localhost:${PORT}/api/devocionais/data/2025-05-18`);
   console.log(`- GET    http://localhost:${PORT}/api/artigos`);
   console.log(`- GET    http://localhost:${PORT}/api/eventos`);
+  console.log(`- GET    http://localhost:${PORT}/api/oracao`);
+  console.log(`- GET    http://localhost:${PORT}/api/midia`);
   console.log(`\nTodos os recursos suportam os métodos GET, POST, PUT e DELETE`);
 });

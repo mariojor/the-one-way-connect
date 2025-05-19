@@ -1,3 +1,4 @@
+
 // types.ts (opcional para organizar tipos)
 export type UserRole = "admin" | "editor";
 
@@ -41,4 +42,27 @@ export interface Evento {
   description: string;
   imageUrl: string;
   registerLink: string;
+}
+
+export interface Oracao {
+  id: string;
+  title: string;
+  author: string;
+  description: string;
+  content: string;
+  imageUrl: string;
+  category: string;
+  date: string;
+}
+
+export interface Midia {
+  id: string;
+  title: string;
+  description: string;
+  author: string;
+  type: "video" | "podcast" | "outro";
+  url: string;
+  imageUrl: string;
+  duration: string;
+  date: string;
 }
