@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -67,7 +67,7 @@ const AdminArtigoForm = ({ artigoId, onSuccess }: AdminArtigoFormProps) => {
   });
 
   // Busca dados do artigo se estiver editando
-  useState(() => {
+  useEffect(() => {
     const fetchArtigo = async () => {
       if (!artigoId) return;
       

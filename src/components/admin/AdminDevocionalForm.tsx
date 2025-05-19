@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -66,7 +66,7 @@ const AdminDevocionalForm = ({ devocionalId, onSuccess }: AdminDevocionalFormPro
   });
 
   // Busca dados do devocional se estiver editando
-  useState(() => {
+  useEffect(() => {
     const fetchDevocional = async () => {
       if (!devocionalId) return;
       

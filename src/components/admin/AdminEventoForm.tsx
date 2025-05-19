@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -65,7 +65,7 @@ const AdminEventoForm = ({ eventoId, onSuccess }: AdminEventoFormProps) => {
   });
 
   // Busca dados do evento se estiver editando
-  useState(() => {
+  useEffect(() => {
     const fetchEvento = async () => {
       if (!eventoId) return;
       
