@@ -50,20 +50,22 @@ const AddOracaoPage = () => {
   // Buscar dados se estiver editando
   useEffect(() => {
     if (isEditing) {
-      fetch(`http://localhost:3001/api/oracao/${id}`)
-        .then((res) => {
-          if (!res.ok) throw new Error("Falha ao buscar dados");
-          return res.json();
-        })
-        .then((data) => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`http://localhost:3001/api/oracao/${id}`);
+          if (!response.ok) throw new Error("Falha ao buscar dados");
+          
+          const data = await response.json();
           // Preenche o formulário com os dados existentes
           form.reset(data);
-        })
-        .catch((error) => {
+        } catch (error) {
           console.error("Erro:", error);
           toast.error("Erro ao carregar dados da oração");
           navigate("/admin/dashboard");
-        });
+        }
+      };
+      
+      fetchData();
     }
   }, [id, isEditing, navigate, form]);
 
@@ -75,6 +77,9 @@ const AddOracaoPage = () => {
         : "http://localhost:3001/api/oracao";
 
       const method = isEditing ? "PUT" : "POST";
+
+      console.log("Enviando dados para:", url, "com método:", method);
+      console.log("Dados enviados:", {...data, date: new Date().toISOString()});
 
       const response = await fetch(url, {
         method,
@@ -88,6 +93,8 @@ const AddOracaoPage = () => {
       });
 
       if (!response.ok) {
+        const errorData = await response.text();
+        console.error("Resposta da API:", errorData);
         throw new Error("Falha ao salvar");
       }
 

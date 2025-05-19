@@ -18,10 +18,12 @@ import { Loader2, Pencil, Trash2 } from "lucide-react";
 
 interface Oracao {
   id: string;
-  titulo: string;
-  versiculo: string;
-  texto: string;
-  conteudo: string;
+  title: string;
+  author: string;
+  description: string;
+  content: string;
+  imageUrl: string;
+  category: string;
   date: string;
 }
 
@@ -37,7 +39,7 @@ const AdminOracaoManager = () => {
   const fetchOracoes = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3001/api/oracoes");
+      const response = await fetch("http://localhost:3001/api/oracao");
       if (!response.ok) throw new Error("Erro ao buscar orações");
       
       const data = await response.json();
@@ -53,7 +55,7 @@ const AdminOracaoManager = () => {
   const handleDelete = async (id: string) => {
     if (window.confirm("Tem certeza que deseja excluir esta oração?")) {
       try {
-        const response = await fetch(`http://localhost:3001/api/oracoes/${id}`, {
+        const response = await fetch(`http://localhost:3001/api/oracao/${id}`, {
           method: "DELETE",
         });
         
@@ -71,7 +73,8 @@ const AdminOracaoManager = () => {
   };
   
   const filteredOracoes = oracoes.filter((oracao) =>
-    oracao.titulo.toLowerCase().includes(searchTerm.toLowerCase())
+    oracao.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    oracao.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
   
   return (
@@ -99,7 +102,8 @@ const AdminOracaoManager = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Título</TableHead>
-                <TableHead>Versículo</TableHead>
+                <TableHead>Autor</TableHead>
+                <TableHead>Categoria</TableHead>
                 <TableHead>Data</TableHead>
                 <TableHead className="text-right">Ações</TableHead>
               </TableRow>
@@ -107,8 +111,9 @@ const AdminOracaoManager = () => {
             <TableBody>
               {filteredOracoes.map((oracao) => (
                 <TableRow key={oracao.id}>
-                  <TableCell className="font-medium">{oracao.titulo}</TableCell>
-                  <TableCell>{oracao.versiculo}</TableCell>
+                  <TableCell className="font-medium">{oracao.title}</TableCell>
+                  <TableCell>{oracao.author}</TableCell>
+                  <TableCell>{oracao.category}</TableCell>
                   <TableCell>
                     {oracao.date && format(parseISO(oracao.date), "dd/MM/yyyy", { locale: ptBR })}
                   </TableCell>

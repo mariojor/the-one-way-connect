@@ -1,14 +1,76 @@
 
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Heart, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
 import { toast } from "@/components/ui/sonner";
+import { Loader2 } from "lucide-react";
+
+interface Oracao {
+  id: string;
+  title: string;
+  author: string;
+  description: string;
+  content: string;
+  category: string;
+  date: string;
+}
 
 const OracaoPage = () => {
   const [pedidoOracao, setPedidoOracao] = useState("");
+  const [oracoes, setOracoes] = useState<Oracao[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchOracoes();
+  }, []);
+
+  const fetchOracoes = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("http://localhost:3001/api/oracao");
+      if (!response.ok) throw new Error("Erro ao buscar orações");
+      
+      const data = await response.json();
+      setOracoes(data);
+    } catch (error) {
+      console.error("Erro ao carregar orações:", error);
+      // Carrega dados de fallback se a API falhar
+      setOracoes([
+        {
+          id: "1",
+          title: "A Força da Oração",
+          author: "Pastor João",
+          description: "Sobre o poder da oração na vida cristã",
+          content: "A oração é uma das ferramentas mais poderosas que temos à disposição. Através dela podemos nos comunicar diretamente com Deus, apresentando nossas petições e agradecimentos.",
+          category: "Devocional",
+          date: new Date().toISOString()
+        },
+        {
+          id: "2",
+          title: "Oração Perseverante",
+          author: "Ministério de Intercessão",
+          description: "Como perseverar em oração",
+          content: "A persistência na oração demonstra nossa fé e confiança em Deus. Mesmo quando não vemos respostas imediatas, devemos continuar orando com fé.",
+          category: "Ensino",
+          date: new Date().toISOString()
+        },
+        {
+          id: "3",
+          title: "Oração em Grupo",
+          author: "Equipe Pastoral",
+          description: "O poder da oração coletiva",
+          content: "Há um poder especial na oração coletiva. Quando nos unimos em um só propósito diante de Deus, Sua presença se manifesta de maneira especial.",
+          category: "Comunidade",
+          date: new Date().toISOString()
+        }
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,30 +81,6 @@ const OracaoPage = () => {
       toast.error("Por favor, escreva seu pedido de oração antes de enviar.");
     }
   };
-
-  const devocionais = [
-    {
-      id: "1",
-      titulo: "A Força da Oração",
-      versiculo: "Tiago 5:16",
-      texto: "A oração feita por um justo pode muito em seus efeitos.",
-      conteudo: "A oração é uma das ferramentas mais poderosas que temos à disposição. Através dela podemos nos comunicar diretamente com Deus, apresentando nossas petições e agradecimentos."
-    },
-    {
-      id: "2",
-      titulo: "Oração Perseverante",
-      versiculo: "Lucas 18:1",
-      texto: "Jesus contou uma parábola para mostrar aos seus discípulos que eles deviam orar sempre e nunca desanimar.",
-      conteudo: "A persistência na oração demonstra nossa fé e confiança em Deus. Mesmo quando não vemos respostas imediatas, devemos continuar orando com fé."
-    },
-    {
-      id: "3",
-      titulo: "Oração em Grupo",
-      versiculo: "Mateus 18:20",
-      texto: "Pois onde dois ou três estiverem reunidos em meu nome, ali estou eu no meio deles.",
-      conteudo: "Há um poder especial na oração coletiva. Quando nos unimos em um só propósito diante de Deus, Sua presença se manifesta de maneira especial."
-    }
-  ];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -86,17 +124,22 @@ const OracaoPage = () => {
             
             <div>
               <h2 className="text-2xl font-bold mb-6">Devocionais sobre Oração</h2>
-              <div className="space-y-6">
-                {devocionais.map((devocional) => (
-                  <div key={devocional.id} className="bg-white p-6 rounded-lg shadow-md">
-                    <h3 className="text-xl font-bold mb-2">{devocional.titulo}</h3>
-                    <p className="text-one-way-blue font-medium mb-3">
-                      {devocional.versiculo} — "{devocional.texto}"
-                    </p>
-                    <p className="text-gray-600">{devocional.conteudo}</p>
-                  </div>
-                ))}
-              </div>
+              {loading ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin text-one-way-blue" />
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {oracoes.map((oracao) => (
+                    <div key={oracao.id} className="bg-white p-6 rounded-lg shadow-md">
+                      <h3 className="text-xl font-bold mb-2">{oracao.title}</h3>
+                      <p className="text-gray-500 text-sm mb-2">{oracao.author}</p>
+                      <p className="text-one-way-blue font-medium mb-3">{oracao.description}</p>
+                      <p className="text-gray-600">{oracao.content}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -29,11 +29,6 @@ app.get('/api/status', (req, res) => {
   res.json({ status: 'online', timestamp: new Date() });
 });
 
-app.listen(PORT, () => {
-  console.log(`Mock API Server rodando na porta ${PORT}`);
-  console.log(`Acesse http://localhost:${PORT}/api/status para verificar o status`);
-});
-
 // Exporta o app para uso em testes ou para inicialização externa
 module.exports = app;
 
