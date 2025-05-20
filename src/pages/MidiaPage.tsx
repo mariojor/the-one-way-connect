@@ -2,10 +2,10 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Video } from "lucide-react";
+import { Video, Loader2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface Midia {
   id: string;
@@ -37,6 +37,7 @@ const MidiaPage = () => {
       setMidias(data);
     } catch (error) {
       console.error("Erro ao carregar mídias:", error);
+      toast.error("Não foi possível carregar as mídias");
       // Carrega dados de fallback se a API falhar
       setMidias([
         {
@@ -97,13 +98,17 @@ const MidiaPage = () => {
       <div className="flex justify-center py-8">
         <Loader2 className="h-8 w-8 animate-spin text-one-way-blue" />
       </div>
+    ) : items.length === 0 ? (
+      <div className="text-center py-8">
+        <p className="text-gray-500">Nenhum conteúdo {type === 'video' ? 'de vídeo' : 'de podcast'} disponível no momento.</p>
+      </div>
     ) : (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         {items.map((item) => (
           <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow">
             <div className="relative h-48 overflow-hidden">
               <img 
-                src={item.imageUrl} 
+                src={item.imageUrl || "/placeholder.svg"} 
                 alt={item.title} 
                 className="w-full h-full object-cover" 
               />
@@ -113,6 +118,7 @@ const MidiaPage = () => {
             </div>
             <div className="p-6">
               <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+              <p className="text-sm text-gray-500 mb-2">por {item.author}</p>
               <p className="text-gray-600 mb-4">{item.description}</p>
               <Button className="bg-one-way-blue hover:bg-one-way-blue/90" asChild>
                 <a href={item.url} target="_blank" rel="noopener noreferrer">

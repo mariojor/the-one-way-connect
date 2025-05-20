@@ -2,11 +2,10 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Heart, Send } from "lucide-react";
+import { Heart, Send, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/sonner";
-import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface Oracao {
   id: string;
@@ -16,6 +15,7 @@ interface Oracao {
   content: string;
   category: string;
   date: string;
+  imageUrl?: string;
 }
 
 const OracaoPage = () => {
@@ -37,6 +37,7 @@ const OracaoPage = () => {
       setOracoes(data);
     } catch (error) {
       console.error("Erro ao carregar orações:", error);
+      toast.error("Não foi possível carregar as orações");
       // Carrega dados de fallback se a API falhar
       setOracoes([
         {
@@ -127,6 +128,10 @@ const OracaoPage = () => {
               {loading ? (
                 <div className="flex justify-center py-8">
                   <Loader2 className="h-8 w-8 animate-spin text-one-way-blue" />
+                </div>
+              ) : oracoes.length === 0 ? (
+                <div className="text-center py-8 bg-gray-50 rounded-md">
+                  <p className="text-gray-500">Nenhuma devocional disponível no momento.</p>
                 </div>
               ) : (
                 <div className="space-y-6">
