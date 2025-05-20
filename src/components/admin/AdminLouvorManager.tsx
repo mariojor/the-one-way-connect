@@ -24,6 +24,8 @@ interface Louvor {
   categoria: string;
   letra?: string;
   audio?: string;
+  videoUrl?: string;
+  imageUrl?: string;
 }
 
 const AdminLouvorManager = () => {

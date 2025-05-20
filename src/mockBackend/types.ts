@@ -79,3 +79,85 @@ export interface Louvor {
   videoUrl?: string;
   imageUrl?: string;
 }
+
+export interface Estudo {
+  id: string;
+  title: string;
+  author: string;
+  date: string;
+  content: string;
+  imageUrl: string;
+  category: string;
+  references: string;
+  duration: string;
+  level: string;
+  description: string;
+}
+
+export interface Noticia {
+  id: string;
+  title: string;
+  author: string;
+  date: string;
+  content: string;
+  imageUrl: string;
+  category: string;
+  summary: string;
+}
+
+export interface Familia {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+  author: string;
+  date: string;
+  category: string;
+  imageUrl: string;
+}
+
+export interface Missao {
+  id: string;
+  title: string;
+  description: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  status: string;
+  leader: string;
+  imageUrl: string;
+}
+
+export interface Juventude {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  leader: string;
+  type: string;
+  imageUrl: string;
+}
+
+export interface Lideranca {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  imageUrl: string;
+  email: string;
+  phone: string;
+  department: string;
+}
+
+export interface Comunidade {
+  id: string;
+  title: string;
+  description: string;
+  leader: string;
+  meetingDay: string;
+  meetingTime: string;
+  location: string;
+  imageUrl: string;
+  members: number;
+}
