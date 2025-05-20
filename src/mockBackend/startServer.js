@@ -2,8 +2,9 @@
 const app = require('./server');
 
 const PORT = process.env.PORT || 3001;
+const HOST = '0.0.0.0'; // Permite conexões de qualquer endereço IP
 
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
   console.log(`Mock API Server rodando na porta ${PORT}`);
   console.log(`API endpoints disponíveis:`);
   console.log(`- GET    http://localhost:${PORT}/api/status`);
@@ -24,4 +25,5 @@ app.listen(PORT, () => {
   console.log(`- GET    http://localhost:${PORT}/api/lideranca`);
   console.log(`- GET    http://localhost:${PORT}/api/comunidade`);
   console.log(`\nTodos os recursos suportam os métodos GET, POST, PUT e DELETE`);
+  console.log(`\nServidor acessível externamente via ${HOST}:${PORT}`);
 });

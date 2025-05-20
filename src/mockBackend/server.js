@@ -20,9 +20,20 @@ const { comunidadesRoutes } = require('./routes/comunidades');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middlewares
-app.use(cors());
+// Configuração CORS mais permissiva para ambiente de desenvolvimento
+app.use(cors({
+  origin: '*', // Permite qualquer origem em desenvolvimento
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(bodyParser.json());
+
+// Log para depuração de requisições
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
 
 // Rotas da API
 app.use('/api/users', usersRoutes);
@@ -45,12 +56,22 @@ app.get('/api/status', (req, res) => {
   res.json({ status: 'online', timestamp: new Date() });
 });
 
+// Tratamento de erros
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ 
+    error: true,
+    message: 'Erro interno no servidor',
+    details: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
+});
+
 // Exporta o app para uso em testes ou para inicialização externa
 module.exports = app;
 
 // Para iniciar o servidor diretamente via Node.js
 if (require.main === module) {
-  app.listen(PORT, () => {
+  app.listen(PORT, '0.0.0.0', () => {
     console.log(`Mock API Server rodando na porta ${PORT}`);
   });
 }
