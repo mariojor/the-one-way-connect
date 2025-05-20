@@ -1,4 +1,3 @@
-
 // types.ts (opcional para organizar tipos)
 export type UserRole = "admin" | "editor";
 
@@ -126,6 +125,9 @@ export interface Missao {
   status: string;
   leader: string;
   imageUrl: string;
+  missionary?: string;  // Add this field to match what's used in MissoesPage
+  date?: string;        // Add this field to match what's used in MissoesPage
+  content?: string;     // Add this field to match what's used in MissoesPage
 }
 
 export interface Juventude {

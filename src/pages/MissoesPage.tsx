@@ -56,6 +56,18 @@ const MissoesPage = () => {
     }
   };
 
+  // Função para formatar a data com segurança
+  const formatDateSafely = (dateString: string | undefined) => {
+    if (!dateString) return "Data não disponível";
+    
+    try {
+      return format(parseISO(dateString), "dd 'de' MMMM 'de' yyyy", { locale: ptBR });
+    } catch (err) {
+      console.error("Erro ao formatar data:", dateString, err);
+      return "Data inválida";
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -108,7 +120,7 @@ const MissoesPage = () => {
                       </div>
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 mr-1" />
-                        {format(parseISO(missao.date), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
+                        {formatDateSafely(missao.date)}
                       </div>
                     </div>
                   </CardHeader>

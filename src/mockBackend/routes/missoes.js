@@ -3,11 +3,20 @@ const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
 
-let { missoes } = require('../mockData');
+// Import from TypeScript mock data file
+let { missoes } = require('../mockDataTS');
 
 // GET - Obter todas as missões
 router.get('/', (req, res) => {
-  res.json(missoes);
+  // Map the missions data to match what the front-end expects
+  const formattedMissoes = missoes.map(missao => ({
+    ...missao,
+    missionary: missao.missionary || missao.leader, // Use leader as missionary if missionary is not defined
+    date: missao.date || missao.startDate, // Use startDate as date if date is not defined
+    status: missao.status.toLowerCase().includes('ativo') ? 'ativo' : 
+            missao.status.toLowerCase().includes('conclu') ? 'concluido' : 'planejado'
+  }));
+  res.json(formattedMissoes);
 });
 
 // GET - Obter missão por ID
@@ -16,7 +25,17 @@ router.get('/:id', (req, res) => {
   if (!missao) {
     return res.status(404).json({ message: 'Missão não encontrada' });
   }
-  res.json(missao);
+  
+  // Format the mission data to match what the front-end expects
+  const formattedMissao = {
+    ...missao,
+    missionary: missao.missionary || missao.leader,
+    date: missao.date || missao.startDate,
+    status: missao.status.toLowerCase().includes('ativo') ? 'ativo' : 
+            missao.status.toLowerCase().includes('conclu') ? 'concluido' : 'planejado'
+  };
+  
+  res.json(formattedMissao);
 });
 
 // POST - Criar nova missão
