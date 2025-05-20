@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Heart } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -56,18 +56,18 @@ const AddOracaoPage = () => {
           if (!response.ok) throw new Error("Falha ao buscar dados");
           
           const data = await response.json();
+          console.log("Dados carregados:", data);
           // Preenche o formulário com os dados existentes
           form.reset(data);
         } catch (error) {
           console.error("Erro:", error);
           toast.error("Erro ao carregar dados da oração");
-          navigate("/admin/dashboard");
         }
       };
       
       fetchData();
     }
-  }, [id, isEditing, navigate, form]);
+  }, [id, isEditing, form]);
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
@@ -113,127 +113,142 @@ const AddOracaoPage = () => {
   };
 
   return (
-    <div className="container-custom py-8">
-      <Button
-        variant="outline"
-        className="mb-6"
-        onClick={() => navigate("/admin/dashboard")}
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Voltar ao Dashboard
-      </Button>
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white shadow">
+        <div className="container-custom py-4">
+          <div className="flex items-center gap-4">
+            <Heart className="h-8 w-8 text-one-way-blue" />
+            <div>
+              <h1 className="text-2xl font-bold">
+                {isEditing ? "Editar Oração" : "Nova Oração"}
+              </h1>
+              <p className="text-gray-500 text-sm">
+                {isEditing ? "Atualize os campos abaixo" : "Preencha os campos abaixo para adicionar uma nova oração"}
+              </p>
+            </div>
+          </div>
+        </div>
+      </header>
 
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h1 className="text-2xl font-bold mb-6">
-          {isEditing ? "Editar Oração" : "Nova Oração"}
-        </h1>
+      <div className="container-custom py-8">
+        <Button
+          variant="outline"
+          className="mb-6"
+          onClick={() => navigate("/admin/dashboard")}
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Voltar ao Dashboard
+        </Button>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Título</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Título da oração" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <div className="bg-white p-6 rounded-lg shadow">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Título</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Título da oração" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="author"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Autor</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Nome do autor" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="author"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Autor</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Nome do autor" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Descrição</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Breve descrição da oração"
-                      className="h-20"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Descrição</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Breve descrição da oração"
+                        className="h-20"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Conteúdo Completo</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Conteúdo completo da oração"
-                      className="h-40"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="content"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Conteúdo Completo</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Conteúdo completo da oração"
+                        className="h-40"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="imageUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>URL da Imagem</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="https://exemplo.com/imagem.jpg"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="imageUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>URL da Imagem</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="https://exemplo.com/imagem.jpg"
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Categoria</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Categoria" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Categoria</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Categoria" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting
-                ? "Salvando..."
-                : isEditing
-                ? "Atualizar Oração"
-                : "Criar Oração"}
-            </Button>
-          </form>
-        </Form>
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting
+                  ? "Salvando..."
+                  : isEditing
+                  ? "Atualizar Oração"
+                  : "Criar Oração"}
+              </Button>
+            </form>
+          </Form>
+        </div>
       </div>
     </div>
   );

@@ -4,25 +4,29 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Loader2, Pencil, Trash2 } from "lucide-react";
+import { format, parseISO } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { Loader2, Pencil, Trash2, Video } from "lucide-react";
 
 interface Midia {
   id: string;
   title: string;
+  author: string;
   description: string;
-  type: "video" | "podcast";
-  duration: string;
-  imageUrl: string;
   url: string;
+  thumbnailUrl: string;
+  type: string;
+  duration: string;
+  category: string;
+  date: string;
 }
 
 const AdminMidiaManager = () => {
@@ -37,7 +41,7 @@ const AdminMidiaManager = () => {
   const fetchMidias = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3001/api/midias");
+      const response = await fetch("http://localhost:3001/api/midia");
       if (!response.ok) throw new Error("Erro ao buscar mídias");
       
       const data = await response.json();
@@ -53,7 +57,7 @@ const AdminMidiaManager = () => {
   const handleDelete = async (id: string) => {
     if (window.confirm("Tem certeza que deseja excluir esta mídia?")) {
       try {
-        const response = await fetch(`http://localhost:3001/api/midias/${id}`, {
+        const response = await fetch(`http://localhost:3001/api/midia/${id}`, {
           method: "DELETE",
         });
         
@@ -71,7 +75,9 @@ const AdminMidiaManager = () => {
   };
   
   const filteredMidias = midias.filter((midia) =>
-    midia.title.toLowerCase().includes(searchTerm.toLowerCase())
+    midia.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    midia.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    midia.type.toLowerCase().includes(searchTerm.toLowerCase())
   );
   
   return (
@@ -99,8 +105,10 @@ const AdminMidiaManager = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Título</TableHead>
+                <TableHead>Autor</TableHead>
                 <TableHead>Tipo</TableHead>
-                <TableHead>Duração</TableHead>
+                <TableHead>Categoria</TableHead>
+                <TableHead>Data</TableHead>
                 <TableHead className="text-right">Ações</TableHead>
               </TableRow>
             </TableHeader>
@@ -108,12 +116,12 @@ const AdminMidiaManager = () => {
               {filteredMidias.map((midia) => (
                 <TableRow key={midia.id}>
                   <TableCell className="font-medium">{midia.title}</TableCell>
+                  <TableCell>{midia.author}</TableCell>
+                  <TableCell>{midia.type}</TableCell>
+                  <TableCell>{midia.category}</TableCell>
                   <TableCell>
-                    <Badge variant={midia.type === "video" ? "default" : "secondary"}>
-                      {midia.type === "video" ? "Vídeo" : "Podcast"}
-                    </Badge>
+                    {midia.date && format(parseISO(midia.date), "dd/MM/yyyy", { locale: ptBR })}
                   </TableCell>
-                  <TableCell>{midia.duration}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Link to={`/admin/midia/editar/${midia.id}`}>
