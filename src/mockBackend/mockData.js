@@ -1,4 +1,3 @@
-
 // mockData.js
 const { v4: uuidv4 } = require('uuid');
 
@@ -286,39 +285,75 @@ const estudos = [
 const louvores = [
   {
     id: "1",
-    title: "Águas Profundas",
-    author: "Ministério Vida",
+    titulo: "Águas Profundas",
+    artista: "Ministério Vida",
     album: "Caminhos de Luz",
-    lyrics: "Em águas profundas eu vou entrar\nOnde meus pés não podem alcançar...",
-    audioUrl: "https://exemplo.com/musicas/aguas-profundas.mp3",
+    ano: "2021",
+    categoria: "Adoração",
+    letra: "Em águas profundas eu vou entrar\nOnde meus pés não podem alcançar...",
+    audio: "https://exemplo.com/musicas/aguas-profundas.mp3",
     videoUrl: "https://exemplo.com/videos/aguas-profundas",
-    date: "2025-04-15",
-    imageUrl: "/placeholder.svg",
-    category: "Adoração"
+    imageUrl: "/placeholder.svg"
   },
   {
     id: "2",
-    title: "Grande é o Senhor",
-    author: "Comunidade de Adoração",
+    titulo: "Grande é o Senhor",
+    artista: "Comunidade de Adoração",
     album: "Eterno Amor",
-    lyrics: "Grande é o Senhor e mui digno de louvor\nNa cidade do nosso Deus, seu santo monte...",
-    audioUrl: "https://exemplo.com/musicas/grande-senhor.mp3",
+    ano: "2019",
+    categoria: "Louvor",
+    letra: "Grande é o Senhor e mui digno de louvor\nNa cidade do nosso Deus, seu santo monte...",
+    audio: "https://exemplo.com/musicas/grande-senhor.mp3",
     videoUrl: "https://exemplo.com/videos/grande-senhor",
-    date: "2025-04-10",
-    imageUrl: "/placeholder.svg",
-    category: "Louvor"
+    imageUrl: "/placeholder.svg"
   },
   {
     id: "3",
-    title: "Luz do Mundo",
-    author: "Grupo Adoração Viva",
+    titulo: "Luz do Mundo",
+    artista: "Grupo Adoração Viva",
     album: "Brilha em Mim",
-    lyrics: "Luz do mundo vieste à terra\nPara que todos pudessem ver...",
-    audioUrl: "https://exemplo.com/musicas/luz-mundo.mp3",
+    ano: "2020",
+    categoria: "Adoração",
+    letra: "Luz do mundo vieste à terra\nPara que todos pudessem ver...",
+    audio: "https://exemplo.com/musicas/luz-mundo.mp3",
     videoUrl: "https://exemplo.com/videos/luz-mundo",
-    date: "2025-04-05",
-    imageUrl: "/placeholder.svg",
-    category: "Adoração"
+    imageUrl: "/placeholder.svg"
+  },
+  {
+    id: "4",
+    titulo: "Lugar Secreto",
+    artista: "Gabriela Rocha",
+    album: "Lugar Secreto",
+    ano: "2018",
+    categoria: "Contemporânea",
+    letra: "Todo o meu ser, meu coração\nSe enche de paz, me traz restauração\nEu sou guardado em Ti...",
+    audio: "https://exemplo.com/musicas/lugar-secreto.mp3",
+    videoUrl: "https://exemplo.com/videos/lugar-secreto",
+    imageUrl: "/placeholder.svg"
+  },
+  {
+    id: "5",
+    titulo: "Nada Além do Sangue",
+    artista: "Fernandinho",
+    album: "Galileu",
+    ano: "2015",
+    categoria: "Adoração",
+    letra: "Teu sangue leva-me além\nA lugares celestiais\nTua cruz livrou-me da morte e da maldição...",
+    audio: "https://exemplo.com/musicas/nada-alem.mp3",
+    videoUrl: "https://exemplo.com/videos/nada-alem",
+    imageUrl: "/placeholder.svg"
+  },
+  {
+    id: "6",
+    titulo: "A Ele a Glória",
+    artista: "Diante do Trono",
+    album: "Preciso de Ti",
+    ano: "2001",
+    categoria: "Congregacional",
+    letra: "A Ele a glória, a Ele o louvor\nA Ele o domínio, Ele é o Senhor...",
+    audio: "https://exemplo.com/musicas/a-ele-gloria.mp3",
+    videoUrl: "https://exemplo.com/videos/a-ele-gloria",
+    imageUrl: "/placeholder.svg"
   }
 ];
 

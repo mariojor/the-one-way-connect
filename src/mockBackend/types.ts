@@ -66,3 +66,16 @@ export interface Midia {
   duration: string;
   date: string;
 }
+
+export interface Louvor {
+  id: string;
+  titulo: string;
+  artista: string;
+  album: string;
+  ano: string;
+  categoria: string;
+  letra?: string;
+  audio?: string;
+  videoUrl?: string;
+  imageUrl?: string;
+}

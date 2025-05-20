@@ -38,7 +38,7 @@ const AdminLouvorManager = () => {
   const fetchLouvores = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3001/api/louvores");
+      const response = await fetch("http://localhost:3001/api/louvor");
       if (!response.ok) throw new Error("Erro ao buscar louvores");
       
       const data = await response.json();
@@ -54,7 +54,7 @@ const AdminLouvorManager = () => {
   const handleDelete = async (id: string) => {
     if (window.confirm("Tem certeza que deseja excluir este louvor?")) {
       try {
-        const response = await fetch(`http://localhost:3001/api/louvores/${id}`, {
+        const response = await fetch(`http://localhost:3001/api/louvor/${id}`, {
           method: "DELETE",
         });
         
@@ -78,13 +78,16 @@ const AdminLouvorManager = () => {
   
   return (
     <div>
-      <div className="mb-4">
+      <div className="flex justify-between mb-4">
         <Input
           placeholder="Pesquisar por título ou artista..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="max-w-md"
         />
+        <Link to="/admin/louvor/novo">
+          <Button>Adicionar Louvor</Button>
+        </Link>
       </div>
       
       {loading ? (

@@ -1,63 +1,105 @@
 
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Music, Play, Bookmark } from "lucide-react";
+import { Music, Play, Bookmark, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
+
+interface Louvor {
+  id: string;
+  titulo: string;
+  artista: string;
+  album: string;
+  ano: string;
+  categoria: string;
+  letra?: string;
+  audio?: string;
+}
+
+interface Playlist {
+  id: string;
+  nome: string;
+  quantidadeMusicas: number;
+}
 
 const LouvorPage = () => {
-  const musicas = [
-    {
-      id: "1",
-      titulo: "Grande é o Senhor",
-      artista: "Adhemar de Campos",
-      album: "Adoração",
-      ano: "2010",
-      categoria: "Adoração"
-    },
-    {
-      id: "2",
-      titulo: "Lugar Secreto",
-      artista: "Gabriela Rocha",
-      album: "Lugar Secreto",
-      ano: "2018",
-      categoria: "Contemporânea"
-    },
-    {
-      id: "3",
-      titulo: "Nada Além do Sangue",
-      artista: "Fernandinho",
-      album: "Galileu",
-      ano: "2015",
-      categoria: "Adoração"
-    },
-    {
-      id: "4",
-      titulo: "Águas Purificadoras",
-      artista: "Ministério Zoe",
-      album: "Águas",
-      ano: "2020",
-      categoria: "Adoração"
-    },
-    {
-      id: "5",
-      titulo: "A Ele a Glória",
-      artista: "Diante do Trono",
-      album: "Preciso de Ti",
-      ano: "2001",
-      categoria: "Congregacional"
-    },
-    {
-      id: "6",
-      titulo: "Eu Navegarei",
-      artista: "Onésimo de Menezes",
-      album: "Clássicos da Harpa",
-      ano: "1995",
-      categoria: "Hinos"
-    },
-  ];
+  const [louvores, setLouvores] = useState<Louvor[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const playlists = [
+  useEffect(() => {
+    fetchLouvores();
+  }, []);
+
+  const fetchLouvores = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("http://localhost:3001/api/louvor");
+      if (!response.ok) throw new Error("Erro ao buscar louvores");
+      
+      const data = await response.json();
+      setLouvores(data);
+    } catch (error) {
+      console.error("Erro ao carregar louvores:", error);
+      toast.error("Não foi possível carregar os louvores");
+      // Carrega dados mockados em caso de falha
+      setLouvores([
+        {
+          id: "1",
+          titulo: "Grande é o Senhor",
+          artista: "Adhemar de Campos",
+          album: "Adoração",
+          ano: "2010",
+          categoria: "Adoração"
+        },
+        {
+          id: "2",
+          titulo: "Lugar Secreto",
+          artista: "Gabriela Rocha",
+          album: "Lugar Secreto",
+          ano: "2018",
+          categoria: "Contemporânea"
+        },
+        {
+          id: "3",
+          titulo: "Nada Além do Sangue",
+          artista: "Fernandinho",
+          album: "Galileu",
+          ano: "2015",
+          categoria: "Adoração"
+        },
+        {
+          id: "4",
+          titulo: "Águas Purificadoras",
+          artista: "Ministério Zoe",
+          album: "Águas",
+          ano: "2020",
+          categoria: "Adoração"
+        },
+        {
+          id: "5",
+          titulo: "A Ele a Glória",
+          artista: "Diante do Trono",
+          album: "Preciso de Ti",
+          ano: "2001",
+          categoria: "Congregacional"
+        },
+        {
+          id: "6",
+          titulo: "Eu Navegarei",
+          artista: "Onésimo de Menezes",
+          album: "Clássicos da Harpa",
+          ano: "1995",
+          categoria: "Hinos"
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const playlists: Playlist[] = [
     { id: "1", nome: "Adoração Intimista", quantidadeMusicas: 15 },
     { id: "2", nome: "Louvor Congregacional", quantidadeMusicas: 22 },
     { id: "3", nome: "Hinos Clássicos", quantidadeMusicas: 18 },
@@ -84,45 +126,51 @@ const LouvorPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-bold mb-6">Músicas em Destaque</h2>
-              <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <table className="w-full">
-                  <thead className="bg-one-way-blue-light text-one-way-blue">
-                    <tr>
-                      <th className="px-4 py-3 text-left">#</th>
-                      <th className="px-4 py-3 text-left">Título</th>
-                      <th className="px-4 py-3 text-left">Artista</th>
-                      <th className="px-4 py-3 text-left">Álbum</th>
-                      <th className="px-4 py-3 text-left">Categoria</th>
-                      <th className="px-4 py-3 text-left">Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {musicas.map((musica, index) => (
-                      <tr key={musica.id} className="border-t hover:bg-gray-50">
-                        <td className="px-4 py-3">{index + 1}</td>
-                        <td className="px-4 py-3 font-medium">{musica.titulo}</td>
-                        <td className="px-4 py-3">{musica.artista}</td>
-                        <td className="px-4 py-3">{musica.album} ({musica.ano})</td>
-                        <td className="px-4 py-3">
-                          <Badge variant="outline" className="bg-one-way-blue-light/30 text-one-way-blue border-one-way-blue/20">
-                            {musica.categoria}
-                          </Badge>
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="flex gap-2">
-                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                              <Play className="h-4 w-4" />
-                            </Button>
-                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                              <Bookmark className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </td>
+              {loading ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin text-one-way-blue" />
+                </div>
+              ) : (
+                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                  <table className="w-full">
+                    <thead className="bg-one-way-blue-light text-one-way-blue">
+                      <tr>
+                        <th className="px-4 py-3 text-left">#</th>
+                        <th className="px-4 py-3 text-left">Título</th>
+                        <th className="px-4 py-3 text-left">Artista</th>
+                        <th className="px-4 py-3 text-left">Álbum</th>
+                        <th className="px-4 py-3 text-left">Categoria</th>
+                        <th className="px-4 py-3 text-left">Ações</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {louvores.map((louvor, index) => (
+                        <tr key={louvor.id} className="border-t hover:bg-gray-50">
+                          <td className="px-4 py-3">{index + 1}</td>
+                          <td className="px-4 py-3 font-medium">{louvor.titulo}</td>
+                          <td className="px-4 py-3">{louvor.artista}</td>
+                          <td className="px-4 py-3">{louvor.album} ({louvor.ano})</td>
+                          <td className="px-4 py-3">
+                            <Badge variant="outline" className="bg-one-way-blue-light/30 text-one-way-blue border-one-way-blue/20">
+                              {louvor.categoria}
+                            </Badge>
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex gap-2">
+                              <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                                <Play className="h-4 w-4" />
+                              </Button>
+                              <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                                <Bookmark className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
             
             <div>

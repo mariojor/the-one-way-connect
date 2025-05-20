@@ -19,14 +19,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 const formSchema = z.object({
-  title: z.string().min(2, "Título deve ter pelo menos 2 caracteres"),
-  artist: z.string().min(2, "Artista deve ter pelo menos 2 caracteres"),
-  description: z.string().min(10, "Descrição deve ter pelo menos 10 caracteres"),
-  lyrics: z.string().min(20, "Letra deve ter pelo menos 20 caracteres"),
-  chords: z.string().optional(),
+  titulo: z.string().min(2, "Título deve ter pelo menos 2 caracteres"),
+  artista: z.string().min(2, "Artista deve ter pelo menos 2 caracteres"),
+  album: z.string().min(2, "Álbum deve ter pelo menos 2 caracteres"),
+  ano: z.string().min(4, "Ano deve ter 4 dígitos"),
+  categoria: z.string().min(2, "Categoria é obrigatória"),
+  letra: z.string().optional(),
+  audio: z.string().optional(),
   videoUrl: z.string().url("URL do vídeo inválida").optional().or(z.literal("")),
   imageUrl: z.string().url("URL da imagem inválida").optional().or(z.literal("")),
-  style: z.string().min(2, "Estilo musical é obrigatório"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -40,14 +41,15 @@ const AddLouvorPage = () => {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      artist: "",
-      description: "",
-      lyrics: "",
-      chords: "",
+      titulo: "",
+      artista: "",
+      album: "",
+      ano: "",
+      categoria: "Adoração",
+      letra: "",
+      audio: "",
       videoUrl: "",
       imageUrl: "",
-      style: "Contemporâneo",
     },
   });
 
@@ -85,10 +87,7 @@ const AddLouvorPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...data,
-          date: new Date().toISOString(),
-        }),
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
@@ -129,7 +128,7 @@ const AddLouvorPage = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="title"
+              name="titulo"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Título</FormLabel>
@@ -143,7 +142,7 @@ const AddLouvorPage = () => {
 
             <FormField
               control={form.control}
-              name="artist"
+              name="artista"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Artista/Ministério</FormLabel>
@@ -157,16 +156,12 @@ const AddLouvorPage = () => {
 
             <FormField
               control={form.control}
-              name="description"
+              name="album"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Descrição</FormLabel>
+                  <FormLabel>Álbum</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Breve descrição sobre a música"
-                      className="h-20"
-                      {...field}
-                    />
+                    <Input placeholder="Nome do álbum" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -175,15 +170,44 @@ const AddLouvorPage = () => {
 
             <FormField
               control={form.control}
-              name="lyrics"
+              name="ano"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Letra</FormLabel>
+                  <FormLabel>Ano</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Ano de lançamento" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="categoria"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Categoria</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Adoração, Louvor, Hinos, etc" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="letra"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Letra (Opcional)</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Letra completa da música"
                       className="h-40"
                       {...field}
+                      value={field.value || ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -193,15 +217,15 @@ const AddLouvorPage = () => {
 
             <FormField
               control={form.control}
-              name="chords"
+              name="audio"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Acordes (Opcional)</FormLabel>
+                  <FormLabel>URL do Áudio (Opcional)</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Acordes da música"
-                      className="h-20"
+                    <Input
+                      placeholder="https://exemplo.com/audio.mp3"
                       {...field}
+                      value={field.value || ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -219,6 +243,7 @@ const AddLouvorPage = () => {
                     <Input
                       placeholder="https://youtube.com/watch?v=..."
                       {...field}
+                      value={field.value || ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -236,21 +261,8 @@ const AddLouvorPage = () => {
                     <Input
                       placeholder="https://exemplo.com/imagem.jpg"
                       {...field}
+                      value={field.value || ""}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="style"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Estilo Musical</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Contemporâneo, Tradicional, etc" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
