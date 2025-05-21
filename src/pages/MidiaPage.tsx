@@ -30,11 +30,25 @@ const MidiaPage = () => {
   const fetchMidias = async () => {
     try {
       setLoading(true);
+      // Atualizado para usar o caminho do novo backend (mas mantém o fallback do mock)
       const response = await fetch("http://localhost:3001/api/midia");
       if (!response.ok) throw new Error("Erro ao buscar mídias");
       
       const data = await response.json();
-      setMidias(data);
+      // Mapear os dados para garantir que o id seja usado corretamente (MongoDB usa _id)
+      const formattedData = data.map((midia: any) => ({
+        id: midia._id || midia.id,
+        title: midia.title,
+        description: midia.description,
+        author: midia.author,
+        type: midia.type,
+        url: midia.url,
+        imageUrl: midia.imageUrl,
+        duration: midia.duration,
+        date: midia.date
+      }));
+      
+      setMidias(formattedData);
     } catch (error) {
       console.error("Erro ao carregar mídias:", error);
       toast.error("Não foi possível carregar as mídias");

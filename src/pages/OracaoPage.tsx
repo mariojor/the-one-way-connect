@@ -30,11 +30,24 @@ const OracaoPage = () => {
   const fetchOracoes = async () => {
     try {
       setLoading(true);
+      // Atualizado para usar o caminho do novo backend (mas mantém o fallback do mock)
       const response = await fetch("http://localhost:3001/api/oracao");
       if (!response.ok) throw new Error("Erro ao buscar orações");
       
       const data = await response.json();
-      setOracoes(data);
+      // Mapear os dados para garantir que o id seja usado corretamente (MongoDB usa _id)
+      const formattedData = data.map((oracao: any) => ({
+        id: oracao._id || oracao.id,
+        title: oracao.title,
+        author: oracao.author,
+        description: oracao.description,
+        content: oracao.content,
+        category: oracao.category,
+        date: oracao.date,
+        imageUrl: oracao.imageUrl
+      }));
+      
+      setOracoes(formattedData);
     } catch (error) {
       console.error("Erro ao carregar orações:", error);
       toast.error("Não foi possível carregar as orações");
@@ -73,11 +86,38 @@ const OracaoPage = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (pedidoOracao.trim()) {
-      toast.success("Seu pedido de oração foi enviado. Estaremos orando por você!");
-      setPedidoOracao("");
+      try {
+        // Enviar pedido de oração para o backend
+        const response = await fetch("http://localhost:3001/api/oracao", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: "Pedido de Oração",
+            author: "Anônimo",
+            description: "Pedido enviado pelo site",
+            content: pedidoOracao,
+            category: "Pedido",
+            date: new Date().toISOString()
+          }),
+        });
+
+        if (response.ok) {
+          toast.success("Seu pedido de oração foi enviado. Estaremos orando por você!");
+          setPedidoOracao("");
+          // Atualizar a lista de orações
+          fetchOracoes();
+        } else {
+          throw new Error("Erro ao enviar o pedido de oração");
+        }
+      } catch (error) {
+        console.error("Erro ao enviar pedido:", error);
+        toast.error("Não foi possível enviar seu pedido. Por favor, tente novamente mais tarde.");
+      }
     } else {
       toast.error("Por favor, escreva seu pedido de oração antes de enviar.");
     }

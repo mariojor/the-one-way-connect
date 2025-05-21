@@ -27,11 +27,22 @@ const EstudosPage = () => {
   const fetchEstudos = async () => {
     try {
       setLoading(true);
+      // Atualizado para usar o caminho do novo backend (mas mantém o fallback do mock)
       const response = await fetch("http://localhost:3001/api/estudos");
       if (!response.ok) throw new Error("Erro ao buscar estudos");
       
       const data = await response.json();
-      setEstudos(data);
+      // Mapear os dados para garantir que o id seja usado corretamente (MongoDB usa _id)
+      const formattedData = data.map((estudo: any) => ({
+        id: estudo._id || estudo.id,
+        title: estudo.title,
+        description: estudo.description,
+        author: estudo.author,
+        imageUrl: estudo.imageUrl,
+        level: estudo.level,
+      }));
+      
+      setEstudos(formattedData);
     } catch (error) {
       console.error("Erro ao carregar estudos:", error);
       toast.error("Não foi possível carregar os estudos");
