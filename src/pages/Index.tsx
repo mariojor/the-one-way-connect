@@ -58,18 +58,18 @@ const Index = () => {
 
   // Main categories with icons - updated with available icons
   const categories = [
-    { title: "Estudo Bíblico", description: "Devocionais diários e comentários bíblicos", icon: Book, link: "/estudos" },
+    // { title: "Estudo Bíblico", description: "Devocionais diários e comentários bíblicos", icon: Book, link: "/estudos" },
     { title: "Notícias Cristãs", description: "Atualidades do mundo cristão", icon: Newspaper, link: "/noticias" },
-    { title: "Vídeos & Podcasts", description: "Pregações, entrevistas e estudos", icon: Video, link: "/midia" },
-    { title: "Oração", description: "Pedidos de oração e devocionais", icon: Heart, link: "/oracao" },
-    { title: "Louvor", description: "Músicas, letras e playlists gospel", icon: Music, link: "/louvor" },
-    { title: "Família", description: "Casamento, filhos e relacionamentos", icon: Home, link: "/familia" },
-    { title: "Juventude", description: "Discipulado jovem e temas atuais", icon: Users, link: "/juventude" },
-    { title: "Ministério", description: "Recursos para pastores e líderes", icon: Church, link: "/lideranca" },
-    { title: "Missões", description: "Relatórios e campanhas evangelísticas", icon: Flag, link: "/missoes" },
-    { title: "Eventos", description: "Conferências, cultos e congressos", icon: Calendar, link: "/eventos" },
-    { title: "Artigos", description: "Reflexões e colunas de opinião cristã", icon: FileText, link: "/artigos" },
-    { title: "Comunidade", description: "Fóruns e grupos de discussão", icon: MessageSquare, link: "/comunidade" }
+    // { title: "Vídeos & Podcasts", description: "Pregações, entrevistas e estudos", icon: Video, link: "/midia" },
+    { title: "Oração", description: "Pedidos de oração e devocionais", icon: Heart, link: "/oracao" }
+    // { title: "Louvor", description: "Músicas, letras e playlists gospel", icon: Music, link: "/louvor" },
+    // { title: "Família", description: "Casamento, filhos e relacionamentos", icon: Home, link: "/familia" },
+    // { title: "Juventude", description: "Discipulado jovem e temas atuais", icon: Users, link: "/juventude" },
+    // { title: "Ministério", description: "Recursos para pastores e líderes", icon: Church, link: "/lideranca" },
+    // { title: "Missões", description: "Relatórios e campanhas evangelísticas", icon: Flag, link: "/missoes" },
+    // { title: "Eventos", description: "Conferências, cultos e congressos", icon: Calendar, link: "/eventos" },
+    // { title: "Artigos", description: "Reflexões e colunas de opinião cristã", icon: FileText, link: "/artigos" },
+    // { title: "Comunidade", description: "Fóruns e grupos de discussão", icon: MessageSquare, link: "/comunidade" }
   ];
   
   return (
