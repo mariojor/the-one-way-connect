@@ -5,14 +5,14 @@ import { Menu, X, Search } from "lucide-react";
 
 const navItems = [
   { name: "Início", href: "/" },
-  { name: "Estudo Bíblico", href: "/estudos" },
+  //{ name: "Estudo Bíblico", href: "/estudos" },
   { name: "Notícias", href: "/noticias" },
-  { name: "Vídeos & Podcasts", href: "/midia" },
+  //{ name: "Vídeos & Podcasts", href: "/midia" },
   { name: "Oração", href: "/oracao" },
-  { name: "Louvor", href: "/louvor" },
-  { name: "Família", href: "/familia" },
-  { name: "Juventude", href: "/juventude" },
-  { name: "Mais", href: "#", isDropdown: true }
+  //{ name: "Louvor", href: "/louvor" },
+  //{ name: "Família", href: "/familia" },
+  //{ name: "Juventude", href: "/juventude" },
+  //{ name: "Mais", href: "#", isDropdown: true }
 ];
 
 const Navbar = () => {

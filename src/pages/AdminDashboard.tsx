@@ -92,27 +92,27 @@ const AdminDashboard = () => {
                 <Book className="h-4 w-4" />
                 Devocionais
               </TabsTrigger>
-              <TabsTrigger value="artigos" className="flex items-center gap-2">
+              {/* <TabsTrigger value="artigos" className="flex items-center gap-2">
                 <FileText className="h-4 w-4" />
                 Artigos
               </TabsTrigger>
               <TabsTrigger value="eventos" className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
                 Eventos
-              </TabsTrigger>
+              </TabsTrigger> */}
               <TabsTrigger value="oracao" className="flex items-center gap-2">
                 <Heart className="h-4 w-4" />
                 Oração
               </TabsTrigger>
-              <TabsTrigger value="midia" className="flex items-center gap-2">
+              {/* <TabsTrigger value="midia" className="flex items-center gap-2">
                 <Video className="h-4 w-4" />
                 Mídia
-              </TabsTrigger>
+              </TabsTrigger> */}
               <TabsTrigger value="noticias" className="flex items-center gap-2">
                 <Newspaper className="h-4 w-4" />
                 Notícias
               </TabsTrigger>
-              <TabsTrigger value="estudos" className="flex items-center gap-2">
+              {/* <TabsTrigger value="estudos" className="flex items-center gap-2">
                 <BookOpen className="h-4 w-4" />
                 Estudos
               </TabsTrigger>
@@ -139,7 +139,7 @@ const AdminDashboard = () => {
               <TabsTrigger value="comunidade" className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
                 Comunidade
-              </TabsTrigger>
+              </TabsTrigger> */}
             </TabsList>
           </div>
           

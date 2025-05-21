@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
 
 // Import from TypeScript mock data file
-let { missoes } = require('../mockDataTS');
+let { missoes } = require('../mockData');
 
 // GET - Obter todas as missões
 router.get('/', (req, res) => {
